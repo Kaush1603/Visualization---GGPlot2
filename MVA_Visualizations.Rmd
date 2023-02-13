@@ -1,0 +1,66 @@
+---
+title: "MVA_Visualization"
+author: "pronak@business.rutgers.edu"
+date: "2/3/2023"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+```{r}
+library(readr)
+library(lattice)
+library(ggplot2)
+library(ggridges)
+library(cowplot)
+library(gapminder)
+library(gganimate)
+library(dplyr)
+library(grid)
+library(gridExtra)
+library(RColorBrewer)
+
+sparrows <- read_csv("C:/Users/tarun/Downloads/Bumpus_sparrows.csv")
+str(sparrows)
+boxplot(sparrows[,2:6])
+stars(sparrows,labels = sparrows$Survivorship)
+
+# Using Sparrows Data
+attach(sparrows)
+
+# base R
+plot(Total_length~L_beak_head)
+
+plot(Total_length~L_beak_head)
+abline(lm(Total_length~L_beak_head), col="steelblue")
+
+xyplot(Total_length~L_beak_head)
+xyplot(Total_length~L_beak_head | Survivorship)
+xyplot(Total_length~L_beak_head, groups=Survivorship)
+
+# ggplot
+ggplot(sparrows, aes(x=L_beak_head,y=Total_length)) + geom_point()
+
+ggplot(sparrows, aes(x=L_beak_head,y=Total_length)) + facet_wrap(Alar_extent) + geom_point()
+
+ggplot(sparrows, aes(x=L_beak_head, y=Total_length)) + geom_point(aes(Alar_extent=Survivorship))
+
+# bar chart
+ggplot(sparrows, aes(Survivorship)) + geom_bar(position="stack") 
+
+# regression
+ggplot(sparrows, aes(x=L_beak_head, y=Total_length)) + geom_point() + geom_smooth(method=lm)
+ggplot(sparrows, aes(x=L_beak_head, y=Total_length)) + geom_point() + stat_smooth()
+
+
+# box plot
+ggplot(sparrows, aes(x=Survivorship, y=Total_length)) + geom_boxplot()
+ggplot(sparrows, aes(x=Survivorship, y=Total_length)) + geom_boxplot() + coord_flip()
+
+# hexbin
+ggplot(sparrows, aes(x=L_beak_head, y=Total_length)) + geom_hex() 
+
+
+
+```
